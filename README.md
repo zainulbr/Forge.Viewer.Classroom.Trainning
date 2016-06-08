@@ -1,7 +1,7 @@
-# Basic Example of View and Data API
-[![LMV](https://img.shields.io/badge/View%20%26%20Data%20API-v1.2.23-green.svg)](http://developer-autodesk.github.io/)
+# Basic Example of Viewer
+[![LMV](https://img.shields.io/badge/Viewer-v1.2.23-green.svg)](https://developer.autodesk.com/api/view-and-data-api/)
 
-This the the minimal JavaScript needed to get a viewer running, in only 60~ lines of code!
+This the the minimal JavaScript needed to get a <b>Viewer</b> running, in only 60~ lines of code!
 
 ## Setup
 - Go through steps in http://shiya.github.io/Intro-View-and-Data/ to get your token, upload a file and get the urn.
@@ -13,4 +13,4 @@ Afterwards, you should see your model displayed in your browser:
 ![](./screenshot.png)
 
 ## Written By
-Shiya Luo from Autodesk, Inc.
+Shiya Luo (Forge Partner Development)
