@@ -15,11 +15,15 @@
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////////////////
+var favicon = require('serve-favicon');
+var api = require('./routes/token.js');
 var express = require('express');
+
 var app = express();
 
 app.use('/', express.static(__dirname + '/www'));
-
+app.use(favicon(__dirname + '/www/img/favicon.ico'));
+app.use('/api', api);
 
 app.set('port', process.env.PORT || 3000);
 
