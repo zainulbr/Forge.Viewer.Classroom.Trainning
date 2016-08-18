@@ -1,58 +1,36 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Very Basic 3D Viewer</title>
-<!-- specify the viewer version at the end of reference with ?v=v1.2.13 -->
-<link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.css?v=v1.2.13" type="text/css">
-<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js?v=v1.2.13"></script>
-<script>
-  // Change the token and urn (translated file location) before running.
-  // Easiest is to go through steps on http://shiya.github.io/Intro-View-and-Data/
+  <head>
+    <title>Very Basic 3D Viewer</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no" />
+    <meta charset="utf-8">
 
-  var token = "YOUR ACCESS TOKEN";
-  var urn = "YOUR BASE 64 ENCODED URN";
+    <!-- The Viewer CSS -->
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.min.css" type="text/css">
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/A360.css" type="text/css">
+  </head>
 
-  function getToken() {
-    return token;
-  }
+  <body>
+    <div id="viewer"></div>
+    <!-- The Viewer JS -->
+    <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/three.min.js"></script>
+    <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js"></script>
+    <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/Autodesk360App.js"></script>
 
-  function loadDocument(viewer, documentId) {
-    // Find the first 3d geometry and load that.
-    Autodesk.Viewing.Document.load(documentId, function(doc) {
-      var geometryItems = Autodesk.Viewing.Document.getSubItemsWithProperties(
-        doc.getRootItem(),
-        { 'type' : 'geometry', 'role' : '3d' },
-        true);
-
-      if (geometryItems.length > 0) {
-        viewer.load(doc.getViewablePath(geometryItems[0]));
-      }
-    },
-    function(errorMsg) { // onErrorCallback
-      alert("Load Error: " + errorMsg);
-    });
-  }
-
-  function initialize() {
-    var options = {
-      'document' : 'urn:' + urn,
-      'env':'AutodeskProduction',
-      'getAccessToken': getToken,
-      'refreshToken': getToken };
-
-    var viewerElement = document.getElementById('viewer');
-    var viewer = new Autodesk.Viewing.Viewer3D(viewerElement, {});
-
-    Autodesk.Viewing.Initializer(options,function() {
-      viewer.initialize();
-      loadDocument(viewer, options.document);
-    });
-  }
-</script>
-</head>
-
-<body onload="initialize()">
-  <div id="viewer"></div>
-</body>
-
+    <!-- Developer JS -->
+    <script>
+        var viewerApp;
+        var options = {
+            env: 'AutodeskProduction',
+            accessToken: 'YOUR ACCESS TOKEN'
+        };
+        var documentId = 'YOUR BASE 64 ENCODED URN';
+        Autodesk.Viewing.Initializer(options, function onInitialized(){
+            viewerApp = new Autodesk.A360ViewingApplication('viewer');
+            viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D);
+            viewerApp.loadDocumentWithItemAndObject(documentId);
+        });
+    </script>
+  </body>
 </html>
+
