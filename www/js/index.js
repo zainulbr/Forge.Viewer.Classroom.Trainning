@@ -41,10 +41,14 @@ $(document).ready( function(){
         'refreshToken': getToken
     };
     
-    var documentId = 'Your URN';
+    var documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTIxLTIxLTIwLTEzLW5nbnp0YmllbnJudmNocHRoZ3FyZXN6c2F6YTgvR2F0ZUhvdXNlLm53ZA==';
+    var config3d = {
+        extensions: ['MyExtension']
+    };
+
     Autodesk.Viewing.Initializer(options, ()=>{
         viewerApp = new Autodesk.A360ViewingApplication('viewer');
-        viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D);
+        viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
         viewerApp.loadDocumentWithItemAndObject(documentId);
     });
 });
