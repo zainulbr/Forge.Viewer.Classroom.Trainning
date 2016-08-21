@@ -21,18 +21,21 @@ Viewing.ClassroomTrainning.Extension.prototype.createMyUI = function(){
     console.log('create UI');
     // Button 1
     var button1 = new Autodesk.Viewing.UI.Button('my-view-front-button');
+    button1.icon.style.backgroundImage = 'url(../img/frontview.png)';
+
     button1.onClick = function(e) {
       _viewer.setViewCube('front');
     };
-//    button1.addClass('my-view-front-button');
+    button1.addClass('my-view-front-button');
     button1.setToolTip('View front');
 
     // Button 2
     var button2 = new Autodesk.Viewing.UI.Button('my-view-back-button');
+    button2.icon.style.backgroundImage = 'url(../img/backview.png)';
     button2.onClick = function(e) {
       _viewer.setViewCube('back');
     };
-//    button2.addClass('my-view-back-button');
+    button2.addClass('my-view-back-button');
     button2.setToolTip('View Back');
 
     // SubToolbar
@@ -61,7 +64,7 @@ Viewing.ClassroomTrainning.Extension.prototype.load  = ()=>{
 
 Viewing.ClassroomTrainning.Extension.prototype.unload  = ()=>{
     console.log('My extension is unloaded');
-//    this.viewer.removeEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, _self.onToolbarCreated );
+    _viewer.toolbar.removeControl(_self.subToolbar);
     return true;
     
 };

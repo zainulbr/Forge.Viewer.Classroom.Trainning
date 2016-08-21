@@ -24,26 +24,36 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Very Basic 3D Viewer</title>
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no" />
-    <meta charset="utf-8">
+    <head>
+        <title>Very Basic 3D Viewer</title>
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no" />
+        <meta charset="utf-8">
 
-    <!-- The Viewer CSS -->
-    <link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.min.css" type="text/css">
-    <link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/A360.css" type="text/css">
-  </head>
+        <!-- The Viewer CSS -->
+        <link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.min.css" type="text/css">
+        <link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/A360.css" type="text/css">
 
-  <body>
-    <div id="viewer"></div>
-    <!-- The Viewer JS -->
-    <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/three.min.js"></script>
-    <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.js"></script>
-    <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/Autodesk360App.js"></script>
-    <!-- Developer JS -->
-    <script src="https://code.jquery.com/jquery-2.1.2.min.js"></script>
-    <script src="js/extension.js"></script>
-    <script src="js/index.js"></script>
-  </body>
+        <style>
+          .my-view-front-button {
+            background: red;
+          }
+          .my-view-back-button {
+            background: blue;
+          }
+        </style>    
+
+    </head>
+
+    <body>
+        <div id="viewer"></div>
+        <!-- The Viewer JS -->
+        <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/three.min.js"></script>
+        <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.js"></script>
+        <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/Autodesk360App.js"></script>
+        <!-- Developer JS -->
+        <script src="https://code.jquery.com/jquery-2.1.2.min.js"></script>
+        <script src="js/extension.js"></script>
+        <script src="js/index.js"></script>
+    </body>
 </html>
 
