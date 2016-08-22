@@ -44,6 +44,32 @@ Viewing.ClassroomTrainning.Extension.prototype.createMyUI = function(){
     this.subToolbar.addControl(button2);
 
     _viewer.toolbar.addControl(this.subToolbar);
+    
+    // Add a seperated button
+    var toolbarDivHtml = "<div id='divToolbar'></div>";
+    $(_viewer.container).append(toolbarDivHtml);
+    
+    $('#divToolbar').css({
+      'top': '20%',
+      'left': '20%',
+      'z-index': '100',
+      'position': 'absolute'
+    });    
+    
+    var ctrGroup = new Autodesk.Viewing.UI.ControlGroup('my-seperated-toolbar');
+    var button3  = new Autodesk.Viewing.UI.Button('my-seperated-button');
+    button3.icon.style.backgroundImage = 'url(../img/button.png)';
+    button3.setToolTip('Add a sphere');
+    button3.addClass('my-seperated-button');
+    button3.onClick = function(e){
+        console.log('I will add a sphere');
+    };
+    ctrGroup.addControl(button3);
+    
+    $('#divToolbar')[0].appendChild(ctrGroup.container);
+    
+    
+    
 
 };
 
