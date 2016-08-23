@@ -44,12 +44,6 @@ Viewing.ClassroomTrainning.Extension.prototype.screenPointToHitPoint = function(
 };
 
 
-Viewing.ClassroomTrainning.Extension.prototype.drawModel = function( pos ){
-
-};
-
-
-
 
 Viewing.ClassroomTrainning.Extension.prototype.createSimpleToolbar = function(){
     // Button 1
@@ -127,11 +121,13 @@ Viewing.ClassroomTrainning.Extension.prototype.createDivToolbar = function(){
         };
 
         var toggleButtonOn = function(){
+            initMaterial();
             $('#viewer').bind('click', createGeometry );
 
         };
 
         var toggleButtonOff = function(){
+            uninitMaterial();
             $('#viewer').unbind('click', createGeometry );
         };
 
