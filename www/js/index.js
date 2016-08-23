@@ -41,7 +41,7 @@ $(document).ready( function(){
         'refreshToken': getToken
     };
     
-    var documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTIxLTIxLTIwLTEzLW5nbnp0YmllbnJudmNocHRoZ3FyZXN6c2F6YTgvR2F0ZUhvdXNlLm53ZA==';
+    var documentId = 'Your URN';
     var config3d = {
         extensions: ['MyExtension']
     };
