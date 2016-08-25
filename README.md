@@ -8,8 +8,7 @@ HTML!
 ## Setup
 - Get your token, upload a file and get the urn.
 - Replace the token and urn with your own.
-- To run on local server with a Mac, go to the directory of where you save this file with terminal and type `$ python -m SimpleHTTPServer`
-- Go to localhost:8000 with your browser!
+- Open the index.html in web browser.
 
 Afterwards, you should see your model displayed in your browser:
 ![](./screenshot.png)
