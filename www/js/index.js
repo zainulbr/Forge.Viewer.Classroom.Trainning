@@ -41,14 +41,39 @@ $(document).ready( function(){
         'refreshToken': getToken
     };
     
-    var documentId = 'Your URN';
+    var documentId = 'urn:<YOUR BASE 64 ENCODED URN>';
     var config3d = {
         extensions: ['MyExtension']
     };
 
-    Autodesk.Viewing.Initializer(options, ()=>{
-        viewerApp = new Autodesk.A360ViewingApplication('viewer');
-        viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
-        viewerApp.loadDocumentWithItemAndObject(documentId);
-    });
+
+        Autodesk.Viewing.Initializer(options, function onInitialized() {
+          viewerApp = new Autodesk.Viewing.ViewingApplication('viewer');
+          viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
+          viewerApp.loadDocument(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+        });
+          
+        function onDocumentLoadSuccess(doc) {
+          var viewer = viewerApp.getCurrentViewer();
+          var viewables = viewerApp.bubble.search({
+            'type': 'geometry'
+          });
+          if (viewables.length === 0) {
+            console.error('Document contains no viewables.');
+            return;
+          }
+          // Choose any of the avialble viewables
+          viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
+          viewer = viewerApp.getViewer();
+        }
+        function onDocumentLoadFailure(viewerErrorCode) {
+          console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
+        }
+        function onItemLoadSuccess(viewer, item) {
+          console.log('onItemLoadSuccess()!');
+        }
+        function onItemLoadFail(errorCode) {
+          console.error('onItemLoadFail() - errorCode:' + errorCode);
+        }
+
 });
