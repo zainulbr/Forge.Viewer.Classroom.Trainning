@@ -1,5 +1,46 @@
 AutodeskNamespace('Viewing.ClassroomTrainning')
 
+Viewing.ClassroomTrainning.AdnPropertyPanel = function (viewer) {
+  var _panel = this
+
+  var _viewer = viewer
+
+  var _selectedNodeId = ''
+
+  Autodesk.Viewing.Extensions.ViewerPropertyPanel.call(
+    _panel,
+    _viewer)
+
+  _panel.setNodeProperties = function (nodeId) {
+    Autodesk.Viewing.Extensions.ViewerPropertyPanel.prototype.setNodeProperties.call(
+      _panel,
+      nodeId)
+
+    _selectedNodeId = nodeId
+  }
+
+  _panel.setProperties = function (properties) {
+    Autodesk.Viewing.Extensions.ViewerPropertyPanel.prototype.setProperties.call(
+      _panel, properties)
+
+    _panel.addProperty(
+      'Node Id', // property name
+      _selectedNodeId, // property value
+      'Customization') // group name
+
+  }
+}
+
+Viewing.ClassroomTrainning.AdnPropertyPanel.prototype =
+  Object.create(
+    Autodesk.Viewing.Extensions.ViewerPropertyPanel.prototype)
+
+Viewing.ClassroomTrainning.AdnPropertyPanel.prototype.constructor =
+  Viewing.ClassroomTrainning.AdnPropertyPanel
+
+
+
+
 Viewing.ClassroomTrainning.Extension = function (viewer, option) {
   Autodesk.Viewing.Extension.call(this, viewer, option)
   _viewer = viewer
@@ -10,14 +51,28 @@ Viewing.ClassroomTrainning.Extension.prototype = Object.create(Autodesk.Viewing.
 Viewing.ClassroomTrainning.Extension.prototype.constructor = Viewing.ClassroomTrainning.Extension
 
 Viewing.ClassroomTrainning.Extension.prototype.onSelectionChanged = function (e) {
-    var propertyPanel =  _viewer.getPropertyPanel(true);
-    propertyPanel.removeAllProperties();
-    propertyPanel.setTitle("My Panel");
-    propertyPanel.addProperty( "test", "john", "new cat", null)
-    propertyPanel.setVisible(true);
+  // var propertyPanel = _viewer.getPropertyPanel(true)
+  // propertyPanel.setTitle('My Panel')
+  // propertyPanel.addProperty('test', 'john', 'new cat', null)
+  // propertyPanel.setVisible(true)
+  // return false
 }
 
+Viewing.ClassroomTrainning.Extension.prototype.onGeometryLoaded = function () {
+  var panel = new Viewing.ClassroomTrainning.AdnPropertyPanel(_viewer)
+  _viewer.setPropertyPanel(panel);
 
+  // Add onClick event for Model Structure Panel
+  var structruePanel = _viewer.modelstructure
+  structruePanel.onClick = _self.onModelStructureClick
+}
+
+Viewing.ClassroomTrainning.Extension.prototype.onModelStructureClick = function (node, e) {
+  var propertyPanel = _viewer.getPropertyPanel(true)
+  if ( propertyPanel && propertyPanel.isVisible()) {
+    propertyPanel.setNodeProperties(node)
+  }
+}
 
 Viewing.ClassroomTrainning.Extension.prototype.onToolbarCreated = function (e) {
   console.log('toolbar created event is called')
@@ -51,18 +106,27 @@ Viewing.ClassroomTrainning.Extension.prototype.createMyUI = function () {
   this.subToolbar.addControl(button1)
   this.subToolbar.addControl(button2)
 
+  // Add button to toolbar
   _viewer.toolbar.addControl(this.subToolbar)
+
+  // remove settings button from toolbar
+  var group = _viewer.toolbar.getControl('settingsTools')
+  group.removeControl('toolbar-settingsTool')
 }
 
 Viewing.ClassroomTrainning.Extension.prototype.load = () => {
+  // Add selection Changed event to include more properties.
   _viewer.addEventListener(Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT, _self.onSelectionChanged)
 
-  if (_viewer.toolbar) {
+  _viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, _self.onGeometryLoaded)
+
+  if (_viewer.toolbar && false) {
     _self.createMyUI()
   }else {
     _viewer.addEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, _self.onToolbarCreated)
     console.log('Events are registered')
   }
+
 
   console.log('My extension is loaded')
   return true
