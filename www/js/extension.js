@@ -116,7 +116,7 @@ Viewing.ClassroomTrainning.Extension.prototype.createMyUI = function () {
 
 Viewing.ClassroomTrainning.Extension.prototype.load = () => {
   // Add selection Changed event to include more properties.
-  _viewer.addEventListener(Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT, _self.onSelectionChanged)
+  _viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, _self.onSelectionChanged)
 
   _viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, _self.onGeometryLoaded)
 
@@ -127,14 +127,15 @@ Viewing.ClassroomTrainning.Extension.prototype.load = () => {
     console.log('Events are registered')
   }
 
-
   console.log('My extension is loaded')
   return true
 }
 
 Viewing.ClassroomTrainning.Extension.prototype.unload = () => {
   console.log('My extension is unloaded')
-  _viewer.removeEventListener(Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT, _self.onSelectionChanged)
+  _viewer.removeEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, _self.onGeometryLoaded)
+  
+  _viewer.removeEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, _self.onSelectionChanged)
   _viewer.toolbar.removeControl(_self.subToolbar)
   return true
 }
