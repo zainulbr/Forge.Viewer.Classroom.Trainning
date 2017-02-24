@@ -112,6 +112,15 @@ Viewing.ClassroomTrainning.Extension.prototype.createMyUI = function () {
   // remove settings button from toolbar
   var group = _viewer.toolbar.getControl('settingsTools')
   group.removeControl('toolbar-settingsTool')
+
+  // reposition the default control
+  var op = {
+    index : 0
+  }
+  var fullscreeBut = group.getControl('toolbar-fullscreenTool')
+  group.removeControl('toolbar-fullscreenTool')
+  group.addControl( fullscreeBut, op)
+
 }
 
 Viewing.ClassroomTrainning.Extension.prototype.load = () => {
