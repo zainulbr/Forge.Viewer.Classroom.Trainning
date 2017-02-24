@@ -117,9 +117,9 @@ Viewing.ClassroomTrainning.Extension.prototype.createMyUI = function () {
   var op = {
     index : 0
   }
-  var fullscreeBut = group.getControl('toolbar-fullscreenTool')
+  var fullscreenBtn = group.getControl('toolbar-fullscreenTool')
   group.removeControl('toolbar-fullscreenTool')
-  group.addControl( fullscreeBut, op)
+  group.addControl( fullscreenBtn, op)
 
 }
 
