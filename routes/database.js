@@ -28,52 +28,29 @@ var mongoose = require('mongoose')
 var express = require('express')
 var router = express.Router()
 
-var db = mongoose.connect('mongodb://localhost/johnsample'); // ；连接数据库
+var db = mongoose.connect('mongodb://localhost/johnsample'); 
 
-var Schema = mongoose.Schema; //  创建模型
+var Schema = mongoose.Schema; 
 var userScheMa = new Schema({
   name: String,
   price: Number
-}); //  定义了一个新的模型，但是此模式还未和users集合有关联
+}); 
+
 
 router.get('/price/:name', function (req, res) {
   var name = req.params.name
-  //   var Price = db.model('Sample', sampleScheMa)
-  //   try {
-
-  // Price.count({name: 'pSphere1'}, function (err, c) {
-  //   console.log('count is ' + c)
-  // })
-
-  //     Price.find(function (err, elements) {
-  //       if (err) {
-  //         res.status(501).end('Can not find the element')
-  //       }else if (elements.length === 0) {
-  //         res.status(501).end('Can not find the element')
-  //       }else {
-  //         elements.forEach(function (element) {
-  //           console.log(element.Name + '  ' + element.price)
-  //         })
-  //         res.end(elements[0].price)
-  //       }
-  //     })
-  //   } catch(err) {
-  //     res.status(500).end(err.message)
-  //   }
-
   try {
-    var User = db.model('user', userScheMa); //  与users集合关联
+    var User = db.model('user', userScheMa); 
 
     User.count({ name: name }, function (err, c) {
       console.log('count is ' + c)
     })
 
     User.findOne({'name': name}, function (err, item) {
-      // 找到所有名字叫krouky的人
       if (err) {
         res.status(500).end(err.message)
       }else if (item === null) {
-        res.status(500).end('Did not find the element in database')
+        res.end('No Price')
       }else {
         console.log('name is: ' + item.name + ' and price is: ' + item.price)
         res.end(item.price.toString())
