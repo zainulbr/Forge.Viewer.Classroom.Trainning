@@ -7,6 +7,8 @@ Viewing.ClassroomTrainning.AdnPropertyPanel = function (viewer) {
 
   var _selectedNodeId = ''
 
+  viewer.getMo
+
   Autodesk.Viewing.Extensions.ViewerPropertyPanel.call(
     _panel,
     _viewer)
@@ -21,13 +23,24 @@ Viewing.ClassroomTrainning.AdnPropertyPanel = function (viewer) {
 
   _panel.setProperties = function (properties) {
     Autodesk.Viewing.Extensions.ViewerPropertyPanel.prototype.setProperties.call(
-      _panel, properties)
+      _panel, properties);
 
-    _panel.addProperty(
-      'Node Id', // property name
-      _selectedNodeId, // property value
-      'Customization') // group name
+      var insTree = _viewer.model.getInstanceTree();
+      var nodeName = insTree.getNodeName(_selectedNodeId);
 
+
+
+    $.ajax({
+      url: '/db/price/'+nodeName,
+      type: 'GET',
+      success: function (data) {
+        console.log('successfull get price: ' + data)
+        _panel.addProperty(
+          'Node Price', // property name
+          data, // property value
+          'Database Information') // group name
+      }
+    })
   }
 }
 
@@ -37,9 +50,6 @@ Viewing.ClassroomTrainning.AdnPropertyPanel.prototype =
 
 Viewing.ClassroomTrainning.AdnPropertyPanel.prototype.constructor =
   Viewing.ClassroomTrainning.AdnPropertyPanel
-
-
-
 
 Viewing.ClassroomTrainning.Extension = function (viewer, option) {
   Autodesk.Viewing.Extension.call(this, viewer, option)
@@ -60,7 +70,7 @@ Viewing.ClassroomTrainning.Extension.prototype.onSelectionChanged = function (e)
 
 Viewing.ClassroomTrainning.Extension.prototype.onGeometryLoaded = function () {
   var panel = new Viewing.ClassroomTrainning.AdnPropertyPanel(_viewer)
-  _viewer.setPropertyPanel(panel);
+  _viewer.setPropertyPanel(panel)
 
   // Add onClick event for Model Structure Panel
   var structruePanel = _viewer.modelstructure
@@ -69,7 +79,7 @@ Viewing.ClassroomTrainning.Extension.prototype.onGeometryLoaded = function () {
 
 Viewing.ClassroomTrainning.Extension.prototype.onModelStructureClick = function (node, e) {
   var propertyPanel = _viewer.getPropertyPanel(true)
-  if ( propertyPanel && propertyPanel.isVisible()) {
+  if (propertyPanel && propertyPanel.isVisible()) {
     propertyPanel.setNodeProperties(node)
   }
 }
@@ -115,12 +125,11 @@ Viewing.ClassroomTrainning.Extension.prototype.createMyUI = function () {
 
   // reposition the default control
   var op = {
-    index : 0
+    index: 0
   }
   var fullscreenBtn = group.getControl('toolbar-fullscreenTool')
   group.removeControl('toolbar-fullscreenTool')
-  group.addControl( fullscreenBtn, op)
-
+  group.addControl(fullscreenBtn, op)
 }
 
 Viewing.ClassroomTrainning.Extension.prototype.load = () => {
@@ -143,7 +152,7 @@ Viewing.ClassroomTrainning.Extension.prototype.load = () => {
 Viewing.ClassroomTrainning.Extension.prototype.unload = () => {
   console.log('My extension is unloaded')
   _viewer.removeEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, _self.onGeometryLoaded)
-  
+
   _viewer.removeEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, _self.onSelectionChanged)
   _viewer.toolbar.removeControl(_self.subToolbar)
   return true
