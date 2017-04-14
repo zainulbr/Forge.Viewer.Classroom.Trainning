@@ -34,19 +34,23 @@ $(document).ready( function(){
     
     
     var viewerApp;
-    
+
+    var config3d = {
+        extensions: ['Autodesk.Viewing.webVR']
+    };
+
     var options = {
         env: 'AutodeskProduction',
         'getAccessToken': getToken,
         'refreshToken': getToken
     };
     
-    var documentId = 'urn:<YOUR BASE 64 ENCODED URN>';
+    var documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6cGVyc2lzdGVudGJ1Y2tldGZvcmpvaG4vYmFzaWNfc2FtcGxlLnJ2dA';
 
 
     Autodesk.Viewing.Initializer(options, function onInitialized() {
         viewerApp = new Autodesk.Viewing.ViewingApplication('viewer');
-        viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, null);
+        viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
         viewerApp.loadDocument(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
     });
 

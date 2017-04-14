@@ -27,10 +27,10 @@ var credentials ={
 	credentials: {
 		// Replace placeholder below by the Consumer Key and Consumer Secret you got from
 		// http://developer.autodesk.com/ for the production server
-		client_id: process.env.CONSUMERKEY || '<replace with your consumer key>',
-		client_secret: process.env.CONSUMERSECRET || '<replace with your consumer secret>',
+		client_id: process.env.CONSUMERKEY || 'GH4zpW4pov7F4kKwHWbwQGhAqjrTz89u',
+		client_secret: process.env.CONSUMERSECRET || 'OE1tnB8N7FNzxGR1',
 		grant_type: 'client_credentials',
-        scope: 'data:read'		
+        scope: 'data:read',		
 	},
 	
 	// If you which to use the Autodesk View & Data API on the staging server, change this url
