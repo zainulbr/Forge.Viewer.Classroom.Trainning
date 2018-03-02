@@ -41,7 +41,7 @@ $(document).ready( function(){
         'refreshToken': getToken
     };
     
-    var documentId = 'urn:<YOUR BASE 64 ENCODED URN>';
+    var documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6am9obm9uc29mdHdhcmV3b3Jrc2hvcDMvYXJ0ZXN0LnJ2dA';
     var config3d = {
         extensions: ['MyExtension']
     };
@@ -54,7 +54,6 @@ $(document).ready( function(){
         });
           
         function onDocumentLoadSuccess(doc) {
-          var viewer = viewerApp.getCurrentViewer();
           var viewables = viewerApp.bubble.search({
             'type': 'geometry'
           });
@@ -64,7 +63,6 @@ $(document).ready( function(){
           }
           // Choose any of the avialble viewables
           viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
-          viewer = viewerApp.getViewer();
         }
         function onDocumentLoadFailure(viewerErrorCode) {
           console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
