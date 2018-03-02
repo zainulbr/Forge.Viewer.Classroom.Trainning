@@ -25,23 +25,56 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Very Basic 3D Viewer</title>
+    <title>3D Viewer with Iot</title>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no" />
     <meta charset="utf-8">
 
     <!-- The Viewer CSS -->
     <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/style.min.css" type="text/css">
-  </head>
-
-  <body>
-    <div id="viewer"></div>
+    <link rel="stylesheet" href="/css/main.css">
+    
     <!-- The Viewer JS -->
     <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/three.min.js"></script>
     <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/viewer3D.js"></script>
+    
     <!-- Developer JS -->
     <script src="https://code.jquery.com/jquery-2.1.2.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="js/smoothie.js"></script>
     <script src="js/extension.js"></script>
     <script src="js/index.js"></script>
+
+  </head>
+
+  <body>
+    <!-- <div id="viewer"></div> -->
+
+    <div class="container">
+      <!-- This is where your viewer should attach -->
+      <div class="left-block" id="viewerDiv"></div>
+      <div class="right-block" id="iotDiv">
+        <canvas id="chart1"></canvas>
+        <canvas id="chart2"></canvas>
+        <canvas id="chart3"></canvas>
+      </div>
+      <div class="bottom-block" id="chartDiv"></div>
+
+        <!-- Extension Buttons -->
+      <!-- <div class="row"> 
+           
+          <div class="myButton" id="background" onclick="changeBackground()">Change Background</div> 
+          <div class="myButton" id="background" onclick="resetBackground()">Reset Background</div> 
+          <div class="myButton" id="background" onclick="loadMarkup3D()">Markup3D</div>
+          <div class="myButton" id="background" onclick="loadTransform()">Transform</div>
+          <div class="myButton" id="background" onclick="loadControlSelector()">Control Selector</div>
+      </div>  -->
+      
+  </div><!-- /container -->
+
+  <footer class="text-center">
+    <p>&copy; Autodesk Forge/Iot Workshop</p>
+  </footer>
+
   </body>
 </html>
 

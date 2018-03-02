@@ -22,56 +22,56 @@ IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-$(document).ready( function(){
-    var getToken =  () => {
-        var xhr = new XMLHttpRequest();
+$(document).ready(function () {
+  var getToken = () => {
+    var xhr = new XMLHttpRequest();
 
-        xhr.open("GET", '/api/token', false);
-        xhr.send(null);
-        var response = JSON.parse(xhr.responseText);
-        return response.access_token;
+    xhr.open("GET", '/api/token', false);
+    xhr.send(null);
+    var response = JSON.parse(xhr.responseText);
+    return response.access_token;
+  }
+
+
+  var viewerApp;
+
+  var options = {
+    env: 'AutodeskProduction',
+    'getAccessToken': getToken,
+    'refreshToken': getToken
+  };
+
+  var documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6am9obm9uc29mdHdhcmV3b3Jrc2hvcDMvYXJ0ZXN0LnJ2dA';
+  var config3d = {
+    extensions: ['MyExtension']
+  };
+
+
+  Autodesk.Viewing.Initializer(options, function onInitialized() {
+    viewerApp = new Autodesk.Viewing.ViewingApplication('viewerDiv');
+    viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
+    viewerApp.loadDocument(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+  });
+
+  function onDocumentLoadSuccess(doc) {
+    var viewables = viewerApp.bubble.search({
+      'type': 'geometry'
+    });
+    if (viewables.length === 0) {
+      console.error('Document contains no viewables.');
+      return;
     }
-    
-    
-    var viewerApp;
-    
-    var options = {
-        env: 'AutodeskProduction',
-        'getAccessToken': getToken,
-        'refreshToken': getToken
-    };
-    
-    var documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6am9obm9uc29mdHdhcmV3b3Jrc2hvcDMvYXJ0ZXN0LnJ2dA';
-    var config3d = {
-        extensions: ['MyExtension']
-    };
-
-
-        Autodesk.Viewing.Initializer(options, function onInitialized() {
-          viewerApp = new Autodesk.Viewing.ViewingApplication('viewer');
-          viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
-          viewerApp.loadDocument(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
-        });
-          
-        function onDocumentLoadSuccess(doc) {
-          var viewables = viewerApp.bubble.search({
-            'type': 'geometry'
-          });
-          if (viewables.length === 0) {
-            console.error('Document contains no viewables.');
-            return;
-          }
-          // Choose any of the avialble viewables
-          viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
-        }
-        function onDocumentLoadFailure(viewerErrorCode) {
-          console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
-        }
-        function onItemLoadSuccess(viewer, item) {
-          console.log('onItemLoadSuccess()!');
-        }
-        function onItemLoadFail(errorCode) {
-          console.error('onItemLoadFail() - errorCode:' + errorCode);
-        }
+    // Choose any of the avialble viewables
+    viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
+  }
+  function onDocumentLoadFailure(viewerErrorCode) {
+    console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
+  }
+  function onItemLoadSuccess(viewer, item) {
+    console.log('onItemLoadSuccess()!');
+  }
+  function onItemLoadFail(errorCode) {
+    console.error('onItemLoadFail() - errorCode:' + errorCode);
+  }
 
 });
