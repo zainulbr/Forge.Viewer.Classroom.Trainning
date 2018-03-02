@@ -30,7 +30,6 @@
         });
           
         function onDocumentLoadSuccess(doc) {
-          var viewer = viewerApp.getCurrentViewer();
           var viewables = viewerApp.bubble.search({
             'type': 'geometry'
           });
@@ -40,7 +39,6 @@
           }
           // Choose any of the avialble viewables
           viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
-          viewer = viewerApp.getViewer();
         }
         function onDocumentLoadFailure(viewerErrorCode) {
           console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
