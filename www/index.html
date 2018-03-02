@@ -6,23 +6,23 @@
     <meta charset="utf-8">
 
     <!-- The Viewer CSS -->
-    <link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.min.css" type="text/css">
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/style.css" type="text/css">
   </head>
 
   <body>
     <div id="viewer"></div>
     <!-- The Viewer JS -->
-    <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/three.min.js"></script>
-    <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js"></script>
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/three.js"></script>
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/viewer3D.js"></script>
 
     <!-- Developer JS -->
     <script>
         var viewerApp;
         var options = {
             env: 'AutodeskProduction',
-            accessToken: '<YOUR ACCESS TOKEN>'
+            accessToken: 'eyJhbGciOiJIUzI1NiIsImtpZCI6Imp3dF9zeW1tZXRyaWNfa2V5In0.eyJjbGllbnRfaWQiOiJ6OGZHRDdzT3oyN2RHc2lHMWczZGYybmVsa1hjaFRBViIsImV4cCI6MTUxOTk1OTMzMywic2NvcGUiOlsiZGF0YTp3cml0ZSIsImRhdGE6Y3JlYXRlIiwiZGF0YTpyZWFkIiwiYnVja2V0OmNyZWF0ZSIsImJ1Y2tldDpyZWFkIiwiYWNjb3VudDpyZWFkIiwiYWNjb3VudDp3cml0ZSJdLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvand0ZXhwNjAiLCJqdGkiOiJScmp2Z280Qk9LYmZLV3ZQZFZsMmdVRXJVY3B3U3lUUjR0Y2VnbFFxc284Wk1CWW1OVzdWZUdMU3JER1FFa2ZkIn0.rvPrDRYQjOK2HjIhsG6B3A7ncf-oDcM3Lt8NfMdC2wI'
         };
-        var documentId = 'urn:<YOUR BASE 64 ENCODED URN>';
+        var documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6am9obm9uc29mdHdhcmV3b3Jrc2hvcDMvYXJ0ZXN0LnJ2dA';
         Autodesk.Viewing.Initializer(options, function onInitialized() {
           viewerApp = new Autodesk.Viewing.ViewingApplication('viewer');
           viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, null);
