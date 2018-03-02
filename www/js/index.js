@@ -41,14 +41,47 @@ $(document).ready( function(){
         'refreshToken': getToken
     };
     
-    var documentId = 'Your URN';
+    var documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6am9obm9uc29mdHdhcmV3b3Jrc2hvcDMvYXJ0ZXN0LnJ2dA';
     var config3d = {
         extensions: ['MyExtension']
     };
 
-    Autodesk.Viewing.Initializer(options, ()=>{
-        viewerApp = new Autodesk.A360ViewingApplication('viewer');
-        viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
-        viewerApp.loadDocumentWithItemAndObject(documentId);
+
+    Autodesk.Viewing.Initializer(options, function onInitialized() {
+      viewerApp = new Autodesk.Viewing.ViewingApplication('viewer');
+      viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
+      viewerApp.loadDocument(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
     });
-});
+
+    function onDocumentLoadSuccess(doc) {
+
+      // We could still make use of Document.getSubItemsWithProperties()
+      // However, when using a ViewingApplication, we have access to the **bubble** attribute,
+      // which references the root node of a graph that wraps each object from the Manifest JSON.
+      var viewables = viewerApp.bubble.search({ 'type': 'geometry' });
+      if (viewables.length === 0) {
+        console.error('Document contains no viewables.');
+        return;
+      }
+
+      // Choose any of the avialble viewables
+      viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
+    }
+
+    function onDocumentLoadFailure(viewerErrorCode) {
+      console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
+    }
+
+    function onItemLoadSuccess(viewer, item) {
+      console.log('onItemLoadSuccess()!');
+      console.log(viewer);
+      console.log(item);
+
+      // Congratulations! The viewer is now ready to be used.
+      console.log('Viewers are equal: ' + (viewer === viewerApp.getCurrentViewer()));
+    }
+
+    function onItemLoadFail(errorCode) {
+      console.error('onItemLoadFail() - errorCode:' + errorCode);
+    }
+  });
