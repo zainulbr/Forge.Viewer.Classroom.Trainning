@@ -1,7 +1,9 @@
 AutodeskNamespace('Viewing.ClassroomTrainning');
 
+var _viewer;
 Viewing.ClassroomTrainning.Extension = function( viewer, option ){
     Autodesk.Viewing.Extension.call( this, viewer, option );
+    _viewer = viewer;
 };
 
 
@@ -46,9 +48,8 @@ var loadGoogleChart = ()=>{
 
         var data = google.visualization.arrayToDataTable([
             ['Label', 'Value'],
-            ['Memory', 80],
-            ['CPU', 55],
-            ['Network', 68]
+            ['Temperature', 100],
+            ['Humidity', 100]
         ]);
 
         var options = {
@@ -83,15 +84,58 @@ var loadGoogleChart = ()=>{
 
 
 Viewing.ClassroomTrainning.Extension.prototype.load  = ()=>{
+
+
+
+    //replace with your own website
+    const baseurl = 'http://localhost:3000';
+    const socketio = io.connect(baseurl);
+
+    //replace with your suitable topic names 
+    const SOCKET_TOPIC_IN = 'Intel-Forge-Temperature';
+
+    //replace with your test id
+    var testdbid = 2912;
+
+    //subscribe the socket data
+    $("#startwebsocket").click(function (res) {
+        socketio.on('Intel-Forge-Temperature', function (msg) {
+            console.log("Data from Intel: " + msg);
+
+            var msgJson = JSON.parse(msg);
+            if (msgJson.sensor_id == 'temperature') {
+                if (msgJson.value < 20) {
+                    _viewer.setThemingColor(
+                        testdbid,
+                        new THREE.Vector4(0, 1, 1, 1)
+                    );
+                }
+                else if (msgJson.value > 20 && msgJson.value < 30) {
+                    _viewer.setThemingColor(
+                        testdbid,
+                        new THREE.Vector4(0, 0.5, 1, 1)
+                    );
+                }
+                else {
+                    _viewer.setThemingColor(
+                        dbid,
+                        new THREE.Vector4(1, 0, 0, 1)
+                    );
+                }
+            }
+
+        });
+    });
+
+    //unsubscribe the socket data 
+    $("#endwebsocket").click(function (res) {
+        socketio.removeAllListeners(SOCKET_TOPIC_IN);
+    });
+
     // alert('My Extension is loaded');
     // var self = this;
     loadSmoothieChart();
     loadGoogleChart();
-
-
-
-
-
     return true;
 };
 
@@ -104,4 +148,8 @@ Viewing.ClassroomTrainning.Extension.prototype.unload  = ()=>{
 
 Autodesk.Viewing.theExtensionManager.registerExtension(
     'MyExtension', Viewing.ClassroomTrainning.Extension);
+
+
+//////////////////////////////////////////////////////////
+
 
