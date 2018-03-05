@@ -24,6 +24,7 @@
     overflow: hidden; 
     position: relative;
     background-color: rgb(175, 99, 76);      
+    padding-left: 230px;
   }
 
   #chart1 {
@@ -59,7 +60,7 @@
     /* margin-top: 50px; */
     overflow: hidden; 
     position: relative;
-    padding-left: 500px;
+    padding-left: 650px;
     background-color: rgb(92, 175, 76);      
 }
 

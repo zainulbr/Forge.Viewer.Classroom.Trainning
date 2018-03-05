@@ -21,31 +21,13 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
-// var favicon = require('serve-favicon');
-// var api = require('./routes/token.js');
-// var express = require('express');
-
-// var app = express();
-
-// app.use('/', express.static(__dirname + '/www'));
-// app.use(favicon(__dirname + '/www/img/favicon.ico'));
-// app.use('/api', api);
-
-// app.set('port', process.env.PORT || 3000);
-
-// var server = app.listen(app.get('port'), function() {
-//     console.log('Server listening on port ' + server.address().port);
-// });
-
-
-
 ///////////////////////////////////////////////////////////
 //replace with your suitable topic names 
-const  MQTT_TOPIC_IN = 'sensors/temperature/data';
-const  MQTT_TOPIC_OUT = '<dummy, not use currently>'; 
-const  SOCKET_TOPIC_OUT = 'Intel-Forge-Temperature';
-const  SOCKET_TOPIC_IN = '<dummy, not use currently>';
+const  MQTT_TOPIC_TEMPERATURE = 'sensors/temperature/data';
+const  MQTT_TOPIC_HUMIDITY = 'sensors/humidity/data';
+
+const  SOCKET_TOPIC_TEMPERATURE = 'Intel-Forge-Temperature';
+const  SOCKET_TOPIC_HUMIDITY = 'Intel-Forge-Humidity';
 
 //import neccessary libraries 
 var favicon = require('serve-favicon');
@@ -81,14 +63,9 @@ mqttclient.on('connect', function () {
     console.log('mqtt on server side is connected');
 
     //subscribe a topic of mqtt
-    mqttclient.subscribe(MQTT_TOPIC_IN,function(err,granted){
+    mqttclient.subscribe(MQTT_TOPIC_TEMPERATURE,function(err,granted){
         console.log(granted);
         console.log(err);
-
-        // setInterval( ()=>{
-        //     socketio.emit(SOCKET_TOPIC_OUT , "test"); 
-            
-        // }, 1000 )
         
         mqttclient.on('message', function (topic, message) {
             // message is Buffer
@@ -96,11 +73,27 @@ mqttclient.on('connect', function () {
             console.log('Intel temperature data: ' + iotdata)
 
             //broadcast the IoT data to socket
-            socketio.emit(SOCKET_TOPIC_OUT , iotdata); 
+            socketio.emit(SOCKET_TOPIC_TEMPERATURE , iotdata); 
             //mqttclient.end()
           }) 
      }); 
 
+
+    //subscribe a topic of  humidity
+    mqttclient.subscribe(MQTT_TOPIC_HUMIDITY,function(err,granted){
+        console.log(granted);
+        console.log(err);
+        
+        mqttclient.on('message', function (topic, message) {
+            // message is Buffer
+            var iotdata = message.toString();
+            console.log('Intel humidity data: ' + iotdata)
+
+            //broadcast the IoT data to socket
+            socketio.emit(SOCKET_TOPIC_HUMIDITY , iotdata); 
+            //mqttclient.end()
+          }) 
+     });      
 })  
 app.set('port', process.env.PORT || 3000);
 
