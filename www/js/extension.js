@@ -16,10 +16,6 @@ Viewing.ClassroomTrainning.Extension = function( viewer, option ){
 
 Viewing.ClassroomTrainning.Extension.prototype = Object.create(Autodesk.Viewing.Extension.prototype);
 Viewing.ClassroomTrainning.Extension.prototype.constructor = Viewing.ClassroomTrainning.Extension;
-
-
-
-
 Viewing.ClassroomTrainning.Extension.prototype.load  = ()=>{
     /////////////////////////////////////////////////////////////////////////
     /// create google charts for Temperature and Humidity

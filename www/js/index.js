@@ -24,18 +24,24 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 $(document).ready(function () {
   var getToken = () => {
-    var xhr = new XMLHttpRequest();
-
-    xhr.open("GET", '/api/token', false);
-    xhr.send(null);
-    var response = JSON.parse(xhr.responseText);
-    //hardcoded token
-    return "eyJhbGciOiJIUzI1NiIsImtpZCI6Imp3dF9zeW1tZXRyaWNfa2V5In0.eyJjbGllbnRfaWQiOiJxVHNNa1FPZ3hkV09wMVlMVnBWdmhkbW9YUHFBSzhMQyIsImV4cCI6MTUyMTIwMDQwMCwic2NvcGUiOlsiZGF0YTpyZWFkIl0sImF1ZCI6Imh0dHBzOi8vYXV0b2Rlc2suY29tL2F1ZC9qd3RleHA2MCIsImp0aSI6IkRydFpFb2dGZEtyc1lMNGV6bTZSYzM4Sm5HNlRFOWdvak9hSHNvcnNNY3h1Z0REclVObjZ1WXFvUkp5TEpRSjYifQ.OGdU7D60LR9sQ2z3ONMh8D3fEneOJiyOxLi8TzE4Dss"
+    var token = "";
+    $.ajax({
+      url: 'https://autodesk-auth.herokuapp.com/',
+      success: function (result) {
+        if (result) {
+          var response = JSON.parse(result);
+          if (response.access_token) {
+            token = response.access_token;
+          }
+        }
+      },
+      async: false
+  });
+  return token;
   }
 
 
   var viewerApp;
-
   var options = {
     env: 'AutodeskProduction',
     'getAccessToken': getToken,
