@@ -58,7 +58,7 @@ Viewing.ClassroomTrainning.Extension.prototype.load  = ()=>{
     //////////////////////////////////////////////////////////////////////////////////
     /// get iot data from socket connection
     //replace with your own website
-    const baseurl = 'http://localhost:3000';
+    const baseurl = 'http://192.168.1.6:3004';
     const socketio = io.connect(baseurl);
 
     //replace with your suitable topic names 
@@ -66,12 +66,14 @@ Viewing.ClassroomTrainning.Extension.prototype.load  = ()=>{
     const SOCKET_TOPIC_HUMIDITY          = 'Intel-Forge-Humidity';
     
     //replace with your test id
-    var testdbid = 4808;
+    var testdbid = 1024;
 
     //subscribe the socket data
     $("#startwebsocket").click(function (res) {
         socketio.on(SOCKET_TOPIC_TEMPERATURE, function (msg) {
-            console.log("Temperature Data from Intel: " + msg);
+            console.log("Temperature Data from Intel: " + msg );
+            console.log("Green < 20. >20 && Blue < 30. else Red " + msg );
+            // console.log("dbid: " + testdbid );
 
             var msgJson = JSON.parse(msg);
             if (msgJson.sensor_id == 'temperature') {
@@ -86,18 +88,18 @@ Viewing.ClassroomTrainning.Extension.prototype.load  = ()=>{
                 if (msgJson.value < 20) {
                     _viewer.setThemingColor(
                         testdbid,
-                        new THREE.Vector4(0, 1, 1, 1)
+                        new THREE.Vector4(0, 1, 0, 1)
                     );
                 }
                 else if (msgJson.value > 20 && msgJson.value < 30) {
                     _viewer.setThemingColor(
                         testdbid,
-                        new THREE.Vector4(0, 0.5, 1, 1)
+                        new THREE.Vector4(0, 0, 1, 1)
                     );
                 }
                 else {
                     _viewer.setThemingColor(
-                        dbid,
+                        testdbid,
                         new THREE.Vector4(1, 0, 0, 1)
                     );
                 }
@@ -106,7 +108,7 @@ Viewing.ClassroomTrainning.Extension.prototype.load  = ()=>{
         });
 
         socketio.on(SOCKET_TOPIC_HUMIDITY, function (msg) {
-            console.log("Humidity Data from Intel: " + msg);
+            // console.log("Humidity Data from Intel: " + msg);
             var msgJson = JSON.parse(msg);
             if (msgJson.sensor_id == 'humidity') {
                 // set the temperature data to google chart
@@ -118,6 +120,23 @@ Viewing.ClassroomTrainning.Extension.prototype.load  = ()=>{
             }
         });
     });
+
+    // _viewer.addEventListener(
+    //     Autodesk.Viewing.SELECTION_CHANGED_EVENT,
+    //     function (event) {
+    //         console.log(event.dbIdArray)
+    //         var dbId = event.dbIdArray[0];
+    //         if (typeof dbId !== 'undefined') {
+    //             testdbid = dbId;
+    //             _viewer.setThemingColor(testdbid, new THREE.Vector4(1,0,0,0.5))
+    //         }
+    //         else {
+    //             testdbid = null;
+    //         }
+    //         console.log(testdbid)
+    //     }
+    // );
+    
 
     //unsubscribe the socket data 
     $("#endwebsocket").click(function (res) {

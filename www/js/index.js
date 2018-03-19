@@ -29,7 +29,8 @@ $(document).ready(function () {
     xhr.open("GET", '/api/token', false);
     xhr.send(null);
     var response = JSON.parse(xhr.responseText);
-    return response.access_token;
+    //hardcoded token
+    return "eyJhbGciOiJIUzI1NiIsImtpZCI6Imp3dF9zeW1tZXRyaWNfa2V5In0.eyJjbGllbnRfaWQiOiJxVHNNa1FPZ3hkV09wMVlMVnBWdmhkbW9YUHFBSzhMQyIsImV4cCI6MTUyMTIwMDQwMCwic2NvcGUiOlsiZGF0YTpyZWFkIl0sImF1ZCI6Imh0dHBzOi8vYXV0b2Rlc2suY29tL2F1ZC9qd3RleHA2MCIsImp0aSI6IkRydFpFb2dGZEtyc1lMNGV6bTZSYzM4Sm5HNlRFOWdvak9hSHNvcnNNY3h1Z0REclVObjZ1WXFvUkp5TEpRSjYifQ.OGdU7D60LR9sQ2z3ONMh8D3fEneOJiyOxLi8TzE4Dss"
   }
 
 
@@ -41,7 +42,7 @@ $(document).ready(function () {
     'refreshToken': getToken
   };
 
-  var documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6am9obm9uc29mdHdhcmV3b3Jrc2hvcDMvYXJ0ZXN0LnJ2dA';
+  var documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bG12ZGJnX3Byb2QvVXJiYW4lMjBIb3VzZSUyMC0lMjBuZXcucnZ0';
   var config3d = {
     extensions: ['MyExtension']
   };
@@ -52,7 +53,6 @@ $(document).ready(function () {
     viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
     viewerApp.loadDocument(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
   });
-
   function onDocumentLoadSuccess(doc) {
     var viewables = viewerApp.bubble.search({
       'type': 'geometry'
@@ -63,11 +63,17 @@ $(document).ready(function () {
     }
     // Choose any of the avialble viewables
     viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
+
   }
   function onDocumentLoadFailure(viewerErrorCode) {
     console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
   }
   function onItemLoadSuccess(viewer, item) {
+    viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function () {
+      var instanceTree = viewer.model.getData().instanceTree;
+      console.log("geometry loaded")
+      });
+
     console.log('onItemLoadSuccess()!');
   }
   function onItemLoadFail(errorCode) {

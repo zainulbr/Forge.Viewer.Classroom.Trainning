@@ -57,7 +57,7 @@ socketio.on('connection', function(socket){
 
 //subscribe mqtt
 var mqtt = require('mqtt');
-var mqttclient  = mqtt.connect('mqtt://test.mosquitto.org:1883');
+var mqttclient  = mqtt.connect('mqtt://192.168.1.6:1883');
 mqttclient.on('connect', function () {
 
     console.log('mqtt on server side is connected');
@@ -95,7 +95,7 @@ mqttclient.on('connect', function () {
           }) 
      });      
 })  
-app.set('port', process.env.PORT || 3000);
+app.set('port', 3004);
 
 server.listen(app.get('port'), function() {
     console.log('Server listening on port ' + server.address().port);
